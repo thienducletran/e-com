@@ -120,13 +120,20 @@ Route::middleware(['auth', 'role:manager'])->prefix('manager')->name('manager.')
     Route::resource('products', \App\Http\Controllers\Manager\ProductController::class)->except(['show']);
     
     // Placeholder routes for sidebar
-    Route::get('/store', function () { return view('manager.placeholder', ['title' => 'Quản lý Gian hàng']); })->name('store');
-    Route::get('/orders', function () { return view('manager.placeholder', ['title' => 'Quản lý Đơn hàng']); })->name('orders');
-    Route::get('/inventory', function () { return view('manager.placeholder', ['title' => 'Quản lý Kho hàng']); })->name('inventory');
-    Route::get('/revenue', function () { return view('manager.placeholder', ['title' => 'Quản lý Doanh thu']); })->name('revenue');
-    Route::get('/promotions', function () { return view('manager.placeholder', ['title' => 'Quản lý Khuyến mãi']); })->name('promotions');
-    Route::get('/reviews', function () { return view('manager.placeholder', ['title' => 'Quản lý Đánh giá']); })->name('reviews');
-    Route::get('/notifications', function () { return view('manager.placeholder', ['title' => 'Thông báo']); })->name('notifications');
+    Route::get('/store', [\App\Http\Controllers\Manager\StoreController::class, 'index'])->name('store');
+    Route::post('/store', [\App\Http\Controllers\Manager\StoreController::class, 'update'])->name('store.update');
+    Route::get('/orders', [\App\Http\Controllers\Manager\OrderController::class, 'index'])->name('orders');
+    Route::put('/orders/{order}', [\App\Http\Controllers\Manager\OrderController::class, 'update'])->name('orders.update');
+    Route::get('/inventory', [\App\Http\Controllers\Manager\InventoryController::class, 'index'])->name('inventory');
+    Route::put('/inventory/{product}', [\App\Http\Controllers\Manager\InventoryController::class, 'update'])->name('inventory.update');
+    Route::get('/revenue', [\App\Http\Controllers\Manager\RevenueController::class, 'index'])->name('revenue');
+    Route::get('/promotions', [\App\Http\Controllers\Manager\PromotionController::class, 'index'])->name('promotions');
+    Route::post('/promotions', [\App\Http\Controllers\Manager\PromotionController::class, 'store'])->name('promotions.store');
+    Route::delete('/promotions/{coupon}', [\App\Http\Controllers\Manager\PromotionController::class, 'destroy'])->name('promotions.destroy');
+    Route::get('/reviews', [\App\Http\Controllers\Manager\ReviewController::class, 'index'])->name('reviews');
+    Route::post('/reviews/{review}/reply', [\App\Http\Controllers\Manager\ReviewController::class, 'reply'])->name('reviews.reply');
+    Route::get('/notifications', [\App\Http\Controllers\Manager\NotificationController::class, 'index'])->name('notifications');
+    Route::delete('/notifications/{notification}', [\App\Http\Controllers\Manager\NotificationController::class, 'destroy'])->name('notifications.destroy');
 });
 
 
